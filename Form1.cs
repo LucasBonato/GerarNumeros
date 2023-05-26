@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,8 @@ namespace GerarNumero
 {
     public partial class Form1 : Form
     {
-        int[] valor = new int[100];
-        float numMulti, numAPartir, numQuantidade;
+        int[] valor = new int[1000];
+        int numMulti, numAPartir, numQuantidade;
         
         public Form1()
         {
@@ -82,7 +83,7 @@ namespace GerarNumero
             {
                 resposta = false;
             } 
-            else if (!(float.TryParse(quantidade, out numQuantidade) && float.TryParse(multiploDe, out numMulti) && float.TryParse(aPartir, out numAPartir)))
+            else if (!(int.TryParse(quantidade, out numQuantidade) && int.TryParse(multiploDe, out numMulti) && int.TryParse(aPartir, out numAPartir)))
             {
                 resposta = false;
             } 
@@ -95,24 +96,31 @@ namespace GerarNumero
 
         private void NumeroPar()
         {
-            int i = (int)numAPartir;
-            for (i = 0; i < numQuantidade; i++)
-            {
-                string teste;
-                valor[i] = i * 2;
-                for (int j = 10; j > 0; j--)
-                {
-                    teste += + $"{valor[i]} ";
-                }
-            }
+            Limpar();
 
-            //numQuantidade;
-            //numMulti;
-            //numAPartir;
+            if(numAPartir % 2 == 1) //Número inicial ímpar
+            {
+                numAPartir++;
+                Loop();
+            }
+            else //Número inicial par 
+            {    
+                Loop();
+            }
         }
         private void NumeroImpar()
         {
-            label1.Text = "Impar";
+            Limpar();
+
+            if (numAPartir % 2 != 1) //Número inicial ímpar
+            {
+                numAPartir--;
+                Loop();
+            }
+            else //Número inicial par 
+            {
+                Loop();
+            }
         }
         private void MultiploDe()
         {
@@ -122,7 +130,25 @@ namespace GerarNumero
         {
             label1.Text = "Anterior";
         }
-
+        private void Limpar() { listBox.Items.Clear(); }
+        private void Loop()
+        {
+            int i = 0;
+            valor[i] = numAPartir;
+            for (int c = i + 1; c < numQuantidade; c++)
+            {
+                valor[c] = numAPartir + 2;
+                numAPartir += 2;
+            }
+            Adicionar();
+        }
+        private void Adicionar()
+        {
+            for (int i = 0; i < numQuantidade; i++)
+            {
+                listBox.Items.Add(valor[i]);
+            }
+        }
         private void btnLimpar_Click(object sender, EventArgs e)
         {
 
