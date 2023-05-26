@@ -36,15 +36,15 @@
             this.listBox = new System.Windows.Forms.ListBox();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnLimpar = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.groupBoxRadio = new System.Windows.Forms.GroupBox();
+            this.radioBtnTen = new System.Windows.Forms.RadioButton();
+            this.radioBtnFive = new System.Windows.Forms.RadioButton();
+            this.radioBtnOne = new System.Windows.Forms.RadioButton();
             this.txtBoxPartirNum = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxRadio.SuspendLayout();
             this.SuspendLayout();
             // 
             // comBoxChoise
@@ -122,49 +122,49 @@
             this.btnLimpar.UseVisualStyleBackColor = true;
             this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
-            // groupBox1
+            // groupBoxRadio
             // 
-            this.groupBox1.Controls.Add(this.radioButton3);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(131, 162);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 48);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBoxRadio.Controls.Add(this.radioBtnTen);
+            this.groupBoxRadio.Controls.Add(this.radioBtnFive);
+            this.groupBoxRadio.Controls.Add(this.radioBtnOne);
+            this.groupBoxRadio.Location = new System.Drawing.Point(131, 162);
+            this.groupBoxRadio.Name = "groupBoxRadio";
+            this.groupBoxRadio.Size = new System.Drawing.Size(200, 48);
+            this.groupBoxRadio.TabIndex = 9;
+            this.groupBoxRadio.TabStop = false;
+            this.groupBoxRadio.Text = "Qntd. por linha";
             // 
-            // radioButton3
+            // radioBtnTen
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Checked = true;
-            this.radioButton3.Location = new System.Drawing.Point(148, 19);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(37, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "10";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioBtnTen.AutoSize = true;
+            this.radioBtnTen.Checked = true;
+            this.radioBtnTen.Location = new System.Drawing.Point(148, 19);
+            this.radioBtnTen.Name = "radioBtnTen";
+            this.radioBtnTen.Size = new System.Drawing.Size(37, 17);
+            this.radioBtnTen.TabIndex = 2;
+            this.radioBtnTen.TabStop = true;
+            this.radioBtnTen.Text = "10";
+            this.radioBtnTen.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // radioBtnFive
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(80, 19);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(31, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "5";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioBtnFive.AutoSize = true;
+            this.radioBtnFive.Location = new System.Drawing.Point(80, 19);
+            this.radioBtnFive.Name = "radioBtnFive";
+            this.radioBtnFive.Size = new System.Drawing.Size(31, 17);
+            this.radioBtnFive.TabIndex = 1;
+            this.radioBtnFive.Text = "5";
+            this.radioBtnFive.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioBtnOne
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(31, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.Text = "1";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioBtnOne.AutoSize = true;
+            this.radioBtnOne.Location = new System.Drawing.Point(6, 19);
+            this.radioBtnOne.Name = "radioBtnOne";
+            this.radioBtnOne.Size = new System.Drawing.Size(31, 17);
+            this.radioBtnOne.TabIndex = 0;
+            this.radioBtnOne.Text = "1";
+            this.radioBtnOne.UseVisualStyleBackColor = true;
             // 
             // txtBoxPartirNum
             // 
@@ -208,7 +208,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBoxRadio);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.listBox);
@@ -221,8 +221,8 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gerador de Números";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxRadio.ResumeLayout(false);
+            this.groupBoxRadio.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,10 +238,10 @@
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnLimpar;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.GroupBox groupBoxRadio;
+        private System.Windows.Forms.RadioButton radioBtnTen;
+        private System.Windows.Forms.RadioButton radioBtnFive;
+        private System.Windows.Forms.RadioButton radioBtnOne;
         private System.Windows.Forms.TextBox txtBoxPartirNum;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

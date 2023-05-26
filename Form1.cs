@@ -13,15 +13,15 @@ using System.Windows.Forms;
 namespace GerarNumero
 {
     public partial class Form1 : Form
-    {
-        int[] valor = new int[1000];
-        int numMulti, numAPartir, numQuantidade;
-        
+    {   
         public Form1()
         {
             InitializeComponent();
             comBoxChoise.SelectedIndex = 0;
         }
+        int[] valor = new int[1000];
+        int numMulti, numAPartir, numQuantidade;
+
         private void btnGerar_Click(object sender, EventArgs e)
         {
             int i = comBoxChoise.SelectedIndex;
@@ -29,9 +29,6 @@ namespace GerarNumero
             {
                 switch (i)
                 {
-                    case -1:
-                        MensagemErro("lista"); 
-                        break;
                     case 0:
                         NumeroPar();
                         break;
@@ -45,7 +42,7 @@ namespace GerarNumero
                         ListaAnterior();
                         break;
                     default:
-                        Verificar();
+                        MensagemErro("lista");
                         break;
                 }
             }
@@ -130,24 +127,49 @@ namespace GerarNumero
         {
             label1.Text = "Anterior";
         }
-        private void Limpar() { listBox.Items.Clear(); }
+        private void Limpar() { listBox.Items.Clear(); } //Limpa a lista de itens
         private void Loop()
         {
             int i = 0;
             valor[i] = numAPartir;
             for (int c = i + 1; c < numQuantidade; c++)
             {
-                valor[c] = numAPartir + 2;
                 numAPartir += 2;
+                valor[c] = numAPartir;
             }
             Adicionar();
         }
-        private void Adicionar()
+        private void Adicionar() // Adiciona os itens do Array para a lista
         {
+            string teste = "";
             for (int i = 0; i < numQuantidade; i++)
             {
-                listBox.Items.Add(valor[i]);
+                if (i % 10 == 0)
+                {
+                    //adicionar \n
+                    teste += "\n";
+                }
+                teste += $"{valor[i]} ";
             }
+                listBox.Items.Add(teste);
+        }
+        private int RadioBtn()
+        {
+            int radio;
+            if(radioBtnOne.Checked == true) 
+            { 
+                radio = 1; 
+            }
+            else if (radioBtnFive.Checked == true) 
+            { 
+                radio = 5; 
+            }
+            else 
+            { 
+                radio = 10; 
+            }
+
+            return radio;
         }
         private void btnLimpar_Click(object sender, EventArgs e)
         {
