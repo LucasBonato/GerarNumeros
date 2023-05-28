@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Channels;
@@ -94,7 +95,7 @@ namespace GerarNumero
 
         private void NumeroPar()
         {
-            Limpar();
+            LimparLista();
 
             if(numAPartir % 2 == 1) //Número inicial ímpar
             {
@@ -108,7 +109,7 @@ namespace GerarNumero
         }
         private void NumeroImpar()
         {
-            Limpar();
+            LimparLista();
 
             if (numAPartir % 2 != 1) //Número inicial ímpar
             {
@@ -128,7 +129,6 @@ namespace GerarNumero
         {
             label1.Text = "Anterior";
         }
-        private void Limpar() { listBox.Items.Clear(); } //Limpa a lista de itens
         private void Loop()
         {
             int i = 0;
@@ -150,15 +150,20 @@ namespace GerarNumero
             {
                 if (i % numLinha == 0 && i != 0) // Próxima linha
                 {
-                    arr[j] = auxiliar;
-                    listBox.Items.Add(arr[j]);
+                    AdicionarItem(j);
                     j++;
                     auxiliar = "";
                 }
                 auxiliar += $"{valor[i]}\t";
             }
-            arr[j] = auxiliar;
-            listBox.Items.Add(arr[j]);
+            AdicionarItem(j);
+            Array.Clear(arr, 0, arr.Length); // Limpando o Array
+
+            void AdicionarItem(int index)
+            {
+                arr[index] = auxiliar;
+                listBox.Items.Add(arr[index]);
+            }
         }
         private void RadioBtn(out int radio)
         {
@@ -175,14 +180,17 @@ namespace GerarNumero
                 radio = 10; 
             }
         }
+        private void LimparLista() { listBox.Items.Clear(); } //Limpa a lista de itens
         private void btnLimpar_Click(object sender, EventArgs e)
         {
-
+            LimparLista();
+            txtBoxMultiOf.Text = "";
+            txtBoxPartirNum.Text = "";
+            txtBoxQuantidade.Text = "";
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
     }
 }
