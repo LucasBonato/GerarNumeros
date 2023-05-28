@@ -20,6 +20,7 @@ namespace GerarNumero
             InitializeComponent();
             comBoxChoise.SelectedIndex = 0;
         }
+
         int[] valor = new int[1000];
         int numMulti, numAPartir, numQuantidade, numLinha;
 
@@ -53,7 +54,6 @@ namespace GerarNumero
                 MensagemErro("campos");
             }
         }
-
         public void MensagemErro(string opcao)
         {
             switch (opcao)
@@ -72,7 +72,6 @@ namespace GerarNumero
                     break;
             }
         }
-
         private bool Verificar()
         {
             string quantidade = txtBoxQuantidade.Text, multiploDe = txtBoxMultiOf.Text, aPartir = txtBoxPartirNum.Text;
@@ -92,7 +91,6 @@ namespace GerarNumero
             }
             return resposta;
         }
-
         private void NumeroPar()
         {
             LimparLista();
@@ -123,13 +121,15 @@ namespace GerarNumero
         }
         private void MultiploDe()
         {
+            // Em desenvolvimento
             label1.Text = "Multiplo";
         }
         private void ListaAnterior()
         {
+            // Em desenvolvimento
             label1.Text = "Anterior";
         }
-        private void Loop()
+        private void Loop() // O Array recebe os valores
         {
             int i = 0;
             valor[i] = numAPartir;
@@ -165,7 +165,7 @@ namespace GerarNumero
                 listBox.Items.Add(arr[index]);
             }
         }
-        private void RadioBtn(out int radio)
+        private void RadioBtn(out int radio) // Verificar qual radio está clicado
         {
             if(radioBtnOne.Checked == true) 
             { 
