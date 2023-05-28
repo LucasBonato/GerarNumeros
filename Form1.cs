@@ -20,11 +20,12 @@ namespace GerarNumero
             comBoxChoise.SelectedIndex = 0;
         }
         int[] valor = new int[1000];
-        int numMulti, numAPartir, numQuantidade;
+        int numMulti, numAPartir, numQuantidade, numLinha;
 
         private void btnGerar_Click(object sender, EventArgs e)
         {
             int i = comBoxChoise.SelectedIndex;
+            RadioBtn(out numLinha);
             if (Verificar())
             {
                 switch (i)
@@ -141,21 +142,26 @@ namespace GerarNumero
         }
         private void Adicionar() // Adiciona os itens do Array para a lista
         {
-            string teste = "";
+            string[] arr = new string[1000];
+            string auxiliar = "";
+            int j = 0;
+
             for (int i = 0; i < numQuantidade; i++)
             {
-                if (i % 10 == 0)
+                if (i % numLinha == 0 && i != 0) // Próxima linha
                 {
-                    //adicionar \n
-                    teste += "\n";
+                    arr[j] = auxiliar;
+                    listBox.Items.Add(arr[j]);
+                    j++;
+                    auxiliar = "";
                 }
-                teste += $"{valor[i]} ";
+                auxiliar += $"{valor[i]}\t";
             }
-                listBox.Items.Add(teste);
+            arr[j] = auxiliar;
+            listBox.Items.Add(arr[j]);
         }
-        private int RadioBtn()
+        private void RadioBtn(out int radio)
         {
-            int radio;
             if(radioBtnOne.Checked == true) 
             { 
                 radio = 1; 
@@ -168,8 +174,6 @@ namespace GerarNumero
             { 
                 radio = 10; 
             }
-
-            return radio;
         }
         private void btnLimpar_Click(object sender, EventArgs e)
         {
