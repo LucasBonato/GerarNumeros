@@ -60,6 +60,7 @@
             this.comBoxChoise.Name = "comBoxChoise";
             this.comBoxChoise.Size = new System.Drawing.Size(120, 21);
             this.comBoxChoise.TabIndex = 0;
+            this.comBoxChoise.SelectedIndexChanged += new System.EventHandler(this.comBoxChoise_SelectedIndexChanged);
             // 
             // lblTypeNum
             // 

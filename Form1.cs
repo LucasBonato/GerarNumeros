@@ -18,7 +18,7 @@ namespace GerarNumero
         public Form1()
         {
             InitializeComponent();
-            MultiOfChangeView(true);
+            MultiOfChangeView(false);
             comBoxChoise.SelectedIndex = 0;
         }
 
@@ -29,7 +29,11 @@ namespace GerarNumero
         {
             int i = comBoxChoise.SelectedIndex;
             RadioBtn(out numLinha);
-            if (Verificar())
+            if (i == 3)
+            {
+                ListaAnterior();
+            }
+            else if (Verificar())
             {
                 switch (i)
                 {
@@ -41,9 +45,6 @@ namespace GerarNumero
                         break;
                     case 2:
                         MultiploDe();
-                        break;
-                    case 3:
-                        ListaAnterior();
                         break;
                     default:
                         MensagemErro("lista");
@@ -135,8 +136,8 @@ namespace GerarNumero
         }
         private void ListaAnterior()
         {
-            // Em desenvolvimento
-            lblTypeNum.Text = "Anterior";
+            LimparLista();
+            Adicionar();
         }
         private void Loop(double soma) // O Array recebe os valores
         {
@@ -157,9 +158,9 @@ namespace GerarNumero
             } 
             else
             {
-                for (double i = 1; numAPartir % m != 0; i++)
+                while(numAPartir % m != 0)
                 {
-                    numAPartir += i;
+                    numAPartir++;
                 }
                 Loop(m);
             }
@@ -227,6 +228,17 @@ namespace GerarNumero
             }
 
             return response;
+        }
+        private void comBoxChoise_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comBoxChoise.SelectedIndex == 2)
+            {
+                MultiOfChangeView(true);
+            } 
+            else
+            {
+                MultiOfChangeView(false);
+            }
         }
         private void LimparLista() { listBox.Items.Clear(); } //Limpa a lista de itens
         private void BtnLimpar_Click(object sender, EventArgs e)
