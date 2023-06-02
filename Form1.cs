@@ -210,6 +210,14 @@ namespace GerarNumero
             txtBoxMultiOf.Visible = troca;
             lblMultiOf.Visible = troca;
         }
+        private void AllChangeView(bool troca)
+        {
+            txtBoxPartirNum.Visible = troca;
+            lblAPartir.Visible = troca;
+
+            txtBoxQuantidade.Visible = troca;
+            lblQntd.Visible = troca;
+        }
         private bool MultiVerify()
         {
             bool response;
@@ -233,14 +241,24 @@ namespace GerarNumero
         {
             if(comBoxChoise.SelectedIndex == 2)
             {
+                AllChangeView(true);
                 MultiOfChangeView(true);
-            } 
+            }
+            else if (comBoxChoise.SelectedIndex == 3)
+            {
+                AllChangeView(false);
+                MultiOfChangeView(false);
+            }
             else
             {
+                AllChangeView(true);
                 MultiOfChangeView(false);
             }
         }
-        private void LimparLista() { listBox.Items.Clear(); } //Limpa a lista de itens
+        private void LimparLista()
+        { 
+            listBox.Items.Clear(); 
+        }
         private void BtnLimpar_Click(object sender, EventArgs e)
         {
             LimparLista();
