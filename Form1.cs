@@ -7,6 +7,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Channels;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,20 +32,20 @@ namespace GerarNumero
             RadioBtn(out numLinha);
             if (i == 3)
             {
-                ListaAnterior();
+                NumbersLoops("ListaAnte");
             }
             else if (Verificar())
             {
                 switch (i)
                 {
                     case 0:
-                        NumeroPar();
+                        NumbersLoops("Par");
                         break;
                     case 1:
-                        NumeroImpar();
+                        NumbersLoops("Impar");
                         break;
                     case 2:
-                        MultiploDe();
+                        NumbersLoops("Multiplo");
                         break;
                     default:
                         MensagemErro("lista");
@@ -56,90 +57,104 @@ namespace GerarNumero
                 MensagemErro("campos");
             }
         }
-        private void MensagemErro(string opcao)
+        private void comBoxChoise_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (opcao)
+            if (comBoxChoise.SelectedIndex == 2)
             {
-                case "lista":
-                    MessageBox.Show("Por favor, selecione alguma das opções da lista!", "OPÇÃO INVALIDA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    break;
-                case "campos":
-                    MessageBox.Show("Por favor, preencha todos os campos antes de gerar a lista!", "Falta de informações", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    break;
-                case "numero":
-                    MessageBox.Show("Por favor, só preencha os campos com números!", "Número", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                default:
-                    MessageBox.Show("Algo não está funcionando corretamente, verifique novamente e rode o programa!", "ERROR", MessageBoxButtons.OK);
-                    break;
+                AllChangeView(true);
+                MultiOfChangeView(true);
             }
-        }
-        private bool Verificar()
-        {
-            string quantidade = txtBoxQuantidade.Text, aPartir = txtBoxPartirNum.Text;
-            bool resposta;
-
-            if ((quantidade.Length < 0 || aPartir.Length < 0))
+            else if (comBoxChoise.SelectedIndex == 3)
             {
-                resposta = false;
-            } 
-            else if (!(double.TryParse(quantidade, out numQuantidade) && double.TryParse(aPartir, out numAPartir)))
-            {
-                resposta = false;
-            } 
-            else
-            {
-                resposta = true;
-            }
-            return resposta;
-        }
-        private void NumeroPar()
-        {
-            LimparLista();
-
-            if(numAPartir % 2 == 1) //Número inicial ímpar
-            {
-                numAPartir++;
-                Loop(2);
-            }
-            else //Número inicial par 
-            {    
-                Loop(2);
-            }
-        }
-        private void NumeroImpar()
-        {
-            LimparLista();
-
-            if (numAPartir % 2 != 1) //Número inicial ímpar
-            {
-                numAPartir--;
-                Loop(2);
-            }
-            else //Número inicial par 
-            {
-                Loop(2);
-            }
-        }
-        private void MultiploDe()
-        {
-            LimparLista();
-
-            if (MultiVerify())
-            {
-                MultiLoop(numMulti);
+                AllChangeView(false);
+                MultiOfChangeView(false);
             }
             else
             {
-                MensagemErro("campo");
+                AllChangeView(true);
+                MultiOfChangeView(false);
             }
         }
-        private void ListaAnterior()
+        private void NumbersLoops(string tipoDoLoop)
         {
             LimparLista();
+
+            switch (tipoDoLoop)
+            {
+                case "Par":
+                    NumeroPar();
+                    break;
+                case "Impar":
+                    NumeroImpar();
+                    break;
+                case "Multiplo":
+                    MultiploDe();
+                    break;
+                case "ListaAnte":
+                    break;
+            }
+
+            void NumeroPar()
+            {
+                if (numAPartir % 2 == 1) //Número inicial ímpar
+                {
+                    numAPartir++;
+                    LoopPar(2);
+                }
+                else //Número inicial par 
+                {
+                    LoopPar(2);
+                }
+            }
+            void NumeroImpar()
+            {
+                if (numAPartir % 2 != 1) //Número inicial ímpar
+                {
+                    numAPartir--;
+                    LoopImpar(2);
+                }
+                else //Número inicial par 
+                {
+                    LoopImpar(2);
+                }
+            }
+            void MultiploDe()
+            {
+                if (MultiVerify())
+                {
+                    MultiLoop(numMulti);
+                }
+                else
+                {
+                    MensagemErro("campo");
+                }
+            }
             Adicionar();
         }
-        private void Loop(double soma) // O Array recebe os valores
+        private void LoopPar(double soma)
+        {
+            int i = 0;
+            valor[i] = numAPartir;
+            int c = i + 1;
+            while(c < numQuantidade)
+            {
+                numAPartir += soma;
+                valor[c] = numAPartir;
+                c++;
+            }
+        }
+        private void LoopImpar(double soma)
+        {
+            int i = 0;
+            valor[i] = numAPartir;
+            do
+            {
+                numAPartir += soma;
+                valor[i] = numAPartir;
+                i++;
+            } while (i < numQuantidade);
+        }
+        private void LoopMultiplo(double soma)
         {
             int i = 0;
             valor[i] = numAPartir;
@@ -148,13 +163,12 @@ namespace GerarNumero
                 numAPartir += soma;
                 valor[c] = numAPartir;
             }
-            Adicionar();
         }
         private void MultiLoop(double m)
         {
             if(numAPartir % m == 0)
             {
-                Loop(m);
+                LoopMultiplo(m);
             } 
             else
             {
@@ -162,10 +176,10 @@ namespace GerarNumero
                 {
                     numAPartir++;
                 }
-                Loop(m);
+                LoopMultiplo(m);
             }
         }
-        private void Adicionar() // Adiciona os itens do Array para a lista
+        private void Adicionar()
         {
             string[] arr = new string[1000];
             string auxiliar = "";
@@ -182,15 +196,15 @@ namespace GerarNumero
                 auxiliar += $"{valor[i]}\t";
             }
             AdicionarItem(j);
-            Array.Clear(arr, 0, arr.Length); // Limpando o Array
 
             void AdicionarItem(int index)
             {
+                Array.Clear(arr, 0, arr.Length); // Limpando o Array
                 arr[index] = auxiliar;
                 listBox.Items.Add(arr[index]);
             }
         }
-        private void RadioBtn(out double radio) // Verificar qual radio está clicado
+        private void RadioBtn(out double radio)
         {
             if(radioBtnOne.Checked == true) 
             { 
@@ -218,6 +232,25 @@ namespace GerarNumero
             txtBoxQuantidade.Visible = troca;
             lblQntd.Visible = troca;
         }
+        private bool Verificar()
+        {
+            string quantidade = txtBoxQuantidade.Text, aPartir = txtBoxPartirNum.Text;
+            bool resposta;
+
+            if ((quantidade.Length < 0 || aPartir.Length < 0))
+            {
+                resposta = false;
+            }
+            else if (!(double.TryParse(quantidade, out numQuantidade) && double.TryParse(aPartir, out numAPartir)))
+            {
+                resposta = false;
+            }
+            else
+            {
+                resposta = true;
+            }
+            return resposta;
+        }
         private bool MultiVerify()
         {
             bool response;
@@ -237,22 +270,22 @@ namespace GerarNumero
 
             return response;
         }
-        private void comBoxChoise_SelectedIndexChanged(object sender, EventArgs e)
+        private void MensagemErro(string opcao)
         {
-            if(comBoxChoise.SelectedIndex == 2)
+            switch (opcao)
             {
-                AllChangeView(true);
-                MultiOfChangeView(true);
-            }
-            else if (comBoxChoise.SelectedIndex == 3)
-            {
-                AllChangeView(false);
-                MultiOfChangeView(false);
-            }
-            else
-            {
-                AllChangeView(true);
-                MultiOfChangeView(false);
+                case "lista":
+                    MessageBox.Show("Por favor, selecione alguma das opções da lista!", "OPÇÃO INVALIDA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                case "campos":
+                    MessageBox.Show("Por favor, preencha todos os campos antes de gerar a lista!", "Falta de informações", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                case "numero":
+                    MessageBox.Show("Por favor, só preencha os campos com números!", "Número", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                default:
+                    MessageBox.Show("Algo não está funcionando corretamente, verifique novamente e rode o programa!", "ERROR", MessageBoxButtons.OK);
+                    break;
             }
         }
         private void LimparLista()
