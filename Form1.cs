@@ -59,6 +59,7 @@ namespace GerarNumero
         }
         private void comBoxChoise_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Método para esconder ou mostrar quando um item do comboBox é selecionado.
             if (comBoxChoise.SelectedIndex == 2)
             {
                 AllChangeView(true);
@@ -129,6 +130,7 @@ namespace GerarNumero
                     MensagemErro("campo");
                 }
             }
+
             Adicionar();
         }
         private void LoopPar(double soma)
@@ -181,6 +183,7 @@ namespace GerarNumero
         }
         private void Adicionar()
         {
+            // Adiciona os números para uma string auxiliar para ser mostrado na ListBox.
             string[] arr = new string[1000];
             string auxiliar = "";
             int j = 0;
@@ -206,6 +209,7 @@ namespace GerarNumero
         }
         private void RadioBtn(out double radio)
         {
+            // Verfica qual das bolinhas foi selecionada (10 é o padrão).
             if(radioBtnOne.Checked == true) 
             { 
                 radio = 1; 
@@ -221,11 +225,13 @@ namespace GerarNumero
         }
         private void MultiOfChangeView(bool troca)
         {
+            // mostra ou esconde a caixa 'Multiplo De'.
             txtBoxMultiOf.Visible = troca;
             lblMultiOf.Visible = troca;
         }
         private void AllChangeView(bool troca)
         {
+            // Mostra ou esconde as caixas que se colocar os números.
             txtBoxPartirNum.Visible = troca;
             lblAPartir.Visible = troca;
 
@@ -243,6 +249,11 @@ namespace GerarNumero
             }
             else if (!(double.TryParse(quantidade, out numQuantidade) && double.TryParse(aPartir, out numAPartir)))
             {
+                resposta = false;
+            }
+            else if (numQuantidade > 1000)
+            {
+                MensagemErro("alto");
                 resposta = false;
             }
             else
@@ -282,6 +293,9 @@ namespace GerarNumero
                     break;
                 case "numero":
                     MessageBox.Show("Por favor, só preencha os campos com números!", "Número", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "alto":
+                    MessageBox.Show("O limite da quantidade foi excedido por favor escolha um número menor que 1000!", "Limite Atingido", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 default:
                     MessageBox.Show("Algo não está funcionando corretamente, verifique novamente e rode o programa!", "ERROR", MessageBoxButtons.OK);
