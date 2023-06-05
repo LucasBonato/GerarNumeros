@@ -15,24 +15,22 @@ using System.Windows.Forms;
 namespace GerarNumero
 {
     public partial class Form1 : Form
-    {   
+    {
+        double[] valor = new double[1000];
+        double numMulti, numAPartir, numQuantidade, numLinha;
         public Form1()
         {
             InitializeComponent();
-            MultiOfChangeView(false);
+            Change("multi", false);
             comBoxChoise.SelectedIndex = 0;
         }
-
-        double[] valor = new double[1000];
-        double numMulti, numAPartir, numQuantidade, numLinha;
-
         private void BtnGerar_Click(object sender, EventArgs e)
         {
             int i = comBoxChoise.SelectedIndex;
             RadioBtn(out numLinha);
             if (i == 3)
             {
-                NumbersLoops("ListaAnte");
+                Adicionar();
             }
             else if (Verificar())
             {
@@ -52,29 +50,6 @@ namespace GerarNumero
                         break;
                 }
             }
-            else
-            {
-                MensagemErro("campos");
-            }
-        }
-        private void comBoxChoise_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Método para esconder ou mostrar quando um item do comboBox é selecionado.
-            if (comBoxChoise.SelectedIndex == 2)
-            {
-                AllChangeView(true);
-                MultiOfChangeView(true);
-            }
-            else if (comBoxChoise.SelectedIndex == 3)
-            {
-                AllChangeView(false);
-                MultiOfChangeView(false);
-            }
-            else
-            {
-                AllChangeView(true);
-                MultiOfChangeView(false);
-            }
         }
         private void NumbersLoops(string tipoDoLoop)
         {
@@ -91,8 +66,6 @@ namespace GerarNumero
                 case "Multiplo":
                     MultiploDe();
                     break;
-                case "ListaAnte":
-                    break;
             }
 
             void NumeroPar()
@@ -100,85 +73,81 @@ namespace GerarNumero
                 if (numAPartir % 2 == 1) //Número inicial ímpar
                 {
                     numAPartir++;
-                    LoopPar(2);
+                    LoopPar();
                 }
                 else //Número inicial par 
                 {
-                    LoopPar(2);
+                    LoopPar();
                 }
             }
             void NumeroImpar()
             {
-                if (numAPartir % 2 != 1) //Número inicial ímpar
+                if (numAPartir % 2 == 0) //Número inicial par
                 {
-                    numAPartir--;
-                    LoopImpar(2);
+                    numAPartir++;
+                    LoopImpar();
                 }
-                else //Número inicial par 
+                else //Número inicial ímpar
                 {
-                    LoopImpar(2);
+                    LoopImpar();
                 }
             }
             void MultiploDe()
             {
                 if (MultiVerify())
                 {
-                    MultiLoop(numMulti);
-                }
-                else
-                {
-                    MensagemErro("campo");
+                    LoopMultiplo(numMulti);
                 }
             }
-
             Adicionar();
         }
-        private void LoopPar(double soma)
-        {
-            int i = 0;
-            valor[i] = numAPartir;
-            int c = i + 1;
-            while(c < numQuantidade)
-            {
-                numAPartir += soma;
-                valor[c] = numAPartir;
-                c++;
-            }
-        }
-        private void LoopImpar(double soma)
-        {
-            int i = 0;
-            valor[i] = numAPartir;
-            do
-            {
-                numAPartir += soma;
-                valor[i] = numAPartir;
-                i++;
-            } while (i < numQuantidade);
-        }
-        private void LoopMultiplo(double soma)
+        private void LoopPar()
         {
             int i = 0;
             valor[i] = numAPartir;
             for (int c = i + 1; c < numQuantidade; c++)
             {
-                numAPartir += soma;
+                numAPartir += 2;
                 valor[c] = numAPartir;
             }
         }
-        private void MultiLoop(double m)
+        private void LoopImpar()
         {
-            if(numAPartir % m == 0)
+            int i = 0;
+            valor[i] = numAPartir;
+            i++;
+            while (i < numQuantidade)
             {
-                LoopMultiplo(m);
-            } 
+                numAPartir += 2;
+                valor[i] = numAPartir;
+                i++;
+            }
+        }
+        private void LoopMultiplo(double m)
+        {
+            if (numAPartir % m == 0)
+            {
+                MultiLoop(m);
+            }
             else
             {
-                while(numAPartir % m != 0)
+                while (numAPartir % m != 0)
                 {
                     numAPartir++;
                 }
-                LoopMultiplo(m);
+                MultiLoop(m);
+            }
+
+            void MultiLoop(double soma)
+            {
+                int i = 0;
+                valor[i] = numAPartir;
+                do
+                {
+                    i++;
+                    numAPartir += soma;
+                    valor[i] = numAPartir;
+                } while (i < numQuantidade);
             }
         }
         private void Adicionar()
@@ -209,34 +178,53 @@ namespace GerarNumero
         }
         private void RadioBtn(out double radio)
         {
-            // Verfica qual das bolinhas foi selecionada (10 é o padrão).
-            if(radioBtnOne.Checked == true) 
-            { 
-                radio = 1; 
+            // Verfica qual das bolinhas foi selecionada.
+            if (radioBtnTen.Checked == true)
+            {
+                radio = 10;
             }
-            else if (radioBtnFive.Checked == true) 
-            { 
-                radio = 5; 
+            else if (radioBtnFive.Checked == true)
+            {
+                radio = 5;
             }
-            else 
-            { 
-                radio = 10; 
+            else
+            {
+                radio = 1;
             }
         }
-        private void MultiOfChangeView(bool troca)
+        private void Change(string qual, bool troca = true)
         {
-            // mostra ou esconde a caixa 'Multiplo De'.
-            txtBoxMultiOf.Visible = troca;
-            lblMultiOf.Visible = troca;
-        }
-        private void AllChangeView(bool troca)
-        {
-            // Mostra ou esconde as caixas que se colocar os números.
-            txtBoxPartirNum.Visible = troca;
-            lblAPartir.Visible = troca;
+            switch (qual)
+            {
+                case "multi":
+                    MultiOfChangeView(troca);
+                    break;
+                case "all":
+                    AllChangeView(troca);
+                    MultiOfChangeView(troca);
+                    break;
+                case "alternado":
+                    AllChangeView(true);
+                    MultiOfChangeView(false);
+                    break;
+            }
 
-            txtBoxQuantidade.Visible = troca;
-            lblQntd.Visible = troca;
+            void MultiOfChangeView(bool change)
+            {
+                // mostra ou esconde a caixa 'Multiplo De'.
+                txtBoxMultiOf.Visible = change;
+                lblMultiOf.Visible = change;
+            }
+
+            void AllChangeView(bool change)
+            {
+                // Mostra ou esconde as caixas que se colocar os números.
+                txtBoxPartirNum.Visible = change;
+                lblAPartir.Visible = change;
+
+                txtBoxQuantidade.Visible = change;
+                lblQntd.Visible = change;
+            }
         }
         private bool Verificar()
         {
@@ -245,15 +233,22 @@ namespace GerarNumero
 
             if ((quantidade.Length < 0 || aPartir.Length < 0))
             {
+                MensagemErro("campos");
                 resposta = false;
             }
             else if (!(double.TryParse(quantidade, out numQuantidade) && double.TryParse(aPartir, out numAPartir)))
             {
+                MensagemErro("numero");
                 resposta = false;
             }
             else if (numQuantidade > 1000)
             {
                 MensagemErro("alto");
+                resposta = false;
+            }
+            else if (numQuantidade < 0)
+            {
+                MensagemErro("baixo");
                 resposta = false;
             }
             else
@@ -268,10 +263,17 @@ namespace GerarNumero
             string multiploDe = txtBoxMultiOf.Text;
             if (multiploDe.Length < 0)
             {
+                MensagemErro("campo");
                 response = false;
-            } 
+            }
             else if (!double.TryParse(multiploDe, out numMulti))
             {
+                MensagemErro("numero");
+                response = false;
+            }
+            else if (numMulti == 0)
+            {
+                MensagemErro("multiZero");
                 response = false;
             }
             else
@@ -297,14 +299,36 @@ namespace GerarNumero
                 case "alto":
                     MessageBox.Show("O limite da quantidade foi excedido por favor escolha um número menor que 1000!", "Limite Atingido", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
+                case "baixo":
+                    MessageBox.Show("A quantidade não pode ser menor do que 0, escolha um número maior!", "Quantidade", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "multiZero":
+                    MessageBox.Show("Selecione algum número diferente de zero no 'Multiplo de'!", "Ação Impossível", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
                 default:
                     MessageBox.Show("Algo não está funcionando corretamente, verifique novamente e rode o programa!", "ERROR", MessageBoxButtons.OK);
                     break;
             }
         }
         private void LimparLista()
-        { 
-            listBox.Items.Clear(); 
+        {
+            listBox.Items.Clear();
+        }
+        private void comBoxChoise_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Método para esconder ou mostrar quando um item do comboBox é selecionado.
+            if (comBoxChoise.SelectedIndex == 2)
+            {
+                Change("all");
+            }
+            else if (comBoxChoise.SelectedIndex == 3)
+            {
+                Change("all", false);
+            }
+            else
+            {
+                Change("alternado");
+            }
         }
         private void BtnLimpar_Click(object sender, EventArgs e)
         {
